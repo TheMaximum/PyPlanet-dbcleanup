@@ -9,8 +9,6 @@ from pyplanet.apps.contrib.local_records.models.local_record import LocalRecord
 from pyplanet.apps.contrib.jukebox.models.mapfolder import MapInFolder
 from pyplanet.apps.core.statistics.models import Score
 
-from apps.smurfen.smurfscup.models.smurfscup import SmurfsCup
-
 
 class DatabaseCleanup(AppConfig):
 	game_dependencies = ['trackmania']
@@ -29,19 +27,14 @@ class DatabaseCleanup(AppConfig):
 		old_database_maps = await Map.objects.execute(Map.select().where(Map.uid.not_in(server_map_uids)))
 		old_database_map_uids = [old_database_map.uid for old_database_map in old_database_maps]
 
-		old_smurfscup_results = await SmurfsCup.objects.execute(SmurfsCup.select().where(SmurfsCup.uid.in_(old_database_map_uids)))
-		old_smurfscup_map_uids = set([old_smurfscup_result.uid for old_smurfscup_result in old_smurfscup_results])
-
 		logging.info('[DBCleanup] Clean-up initiated by {}'.format(player.login))
 		logging.info('[DBCleanup] Maps on the server: {}'.format(len(server_maps)))
 		logging.info('[DBCleanup] Old maps in database: {}'.format(len(old_database_maps)))
-		logging.info('[DBCleanup] Old SmurfsCup in database: {}'.format(len(old_smurfscup_map_uids)))
 
-		maps_to_clean = [map for map in old_database_maps if not map.uid in old_smurfscup_map_uids]
-		logging.info('[DBCleanup] Old maps to be cleaned: {}'.format(len(maps_to_clean)))
+		logging.info('[DBCleanup] Old maps to be cleaned: {}'.format(len(old_database_maps)))
 
-		if len(maps_to_clean) > 0:
-			view = CleanupMapListView(self, maps_to_clean)
+		if len(old_database_maps) > 0:
+			view = CleanupMapListView(self, old_database_maps)
 			await view.display(player)
 		else:
 			message = '$f00$iThere are no maps to be cleaned from the database.'
