@@ -76,7 +76,7 @@ class CleanupMapListView(ManualListView):
 		return buttons
 
 	async def action_clean(self, player, values, **kwargs):
-		cancel = await ask_confirmation(player, 'Are you sure you want to clean {} maps in the database? Active maps and old SmurfsCup maps are NOT included. This might take a while and is irreversible!'.format(
+		cancel = await ask_confirmation(player, 'Are you sure you want to clean {} maps in the database? Active maps are NOT included. This might take a while and is irreversible!'.format(
 			len(self.old_database_maps), (len(self.old_database_maps) + len(self.app.instance.map_manager.maps))), size='sm')
 
 		await self.close(player)
