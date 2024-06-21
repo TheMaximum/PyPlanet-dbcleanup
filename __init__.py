@@ -1,6 +1,6 @@
 import logging
 
-from apps.smurfen.dbcleanup.views import CleanupMapListView
+from apps.dbcleanup.views import CleanupMapListView
 from pyplanet.apps.config import AppConfig
 from pyplanet.apps.core.maniaplanet.models import Map
 from pyplanet.contrib.command import Command
