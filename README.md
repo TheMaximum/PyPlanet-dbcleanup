@@ -13,4 +13,4 @@ PyPlanet app providing an admin command for cleaning up the database. The clean-
 * Restart PyPlanet
 
 ## Plugin commands
-* `//dbcleanup` or `//db clean` - starts the database clean-up (provides an overview of maps to be cleaned)
+* `//db clean` or `//database clean` - starts the database clean-up (provides an overview of maps to be cleaned)
